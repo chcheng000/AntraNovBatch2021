@@ -70,14 +70,20 @@ go
 select ProductSubCategoryID, LEFT(Name, 35) AS Name, Color, ListPrice
 from Production.Product
 where not Color IN ('Red', 'Black')
-OR ListPrice between 1000 and 2000
 AND ProductSubcategoryID = 1
+OR ListPrice between 1000 and 2000
 Order by ProductID
 go 
-select ProductID, StandardCost, ProductSubcategoryID, Name, Color, ListPrice
+select top(7) ProductSubcategoryID, Name, Color, ListPrice
 from Production.Product
-where ProductSubcategoryID < 15
-AND not ProductSubcategoryID is null
-AND ListPrice between 539.99 and 1700.99
-AND (ListPrice like '%.99' OR ListPrice like '%.50')
+where ProductSubcategoryID = 14
+AND color in ('Red', 'Black') AND ListPrice between 1000 and 15000
+union
+select ProductSubcategoryID, Name, Color, ListPrice
+from Production.Product
+where ProductSubcategoryID between 1 and 14
+AND ( (ProductSubcategoryID = 12 AND color = 'silver' AND ListPrice between 1000 and 2000)
+	OR (ProductSubcategoryID = 2 AND color = 'yellow' AND ListPrice between 1500 and 2000)
+	OR (ProductSubcategoryID = 1 AND color = 'black' AND ListPrice < 600)
+)
 order by ProductSubcategoryID desc
