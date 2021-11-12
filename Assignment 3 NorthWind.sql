@@ -1,11 +1,11 @@
 use NorthWind
 go
--- List all cities that have both employees and customers
+-- 1. List all cities that have both employees and customers
 select distinct e.City
 from Employees e inner join Customers c
 on e.City = c.City
 
-/* List all cities that have Customers but no Employee
+/* 2. List all cities that have Customers but no Employee
 	using sub-query
 	without using sub-query
 */
@@ -24,7 +24,7 @@ on e.City = c.City
 where e.EmployeeID is null
 
 
-/* List all products and their total order quantities throughout 
+/* 3. List all products and their total order quantities throughout 
 all orders. 
 */
 select p.ProductName, (
@@ -34,7 +34,7 @@ select p.ProductName, (
 ) "Total Order Quantity"
 from Products p
 
--- List all Customer Cities and total products ordered by that city
+-- 4. List all Customer Cities and total products ordered by that city
 select c.City, (
 	select count(od.quantity)
 	from [Order Details] od, Orders o
@@ -44,7 +44,7 @@ select c.City, (
 from Customers c
 
 
-/* List all Customer Cities that have at least two customers
+/* 5. List all Customer Cities that have at least two customers
 	using Union
 	using sub-query without union
 */
@@ -62,7 +62,7 @@ where (
 ) >= 2
 
 
-/* List all customer Cities that have ordered at least two different 
+/* 6. List all customer Cities that have ordered at least two different 
 kinds of products 
 */
 select distinct c.City
@@ -74,7 +74,7 @@ where (
 ) >= 2
 AND o.ShipCity = c.City
 
-/* List all Customers who have ordered products, but have the 
+/* 7. List all Customers who have ordered products, but have the 
 'ship city' on the order different from their own customer cities
 */
 select distinct c.ContactName
@@ -83,7 +83,7 @@ where o.ShipCity != c.City
 AND o.CustomerID = c.CustomerID
 
 
-/* List 5 most popular products, their average price, and the
+/* 8. List 5 most popular products, their average price, and the
 customer city that ordered most quantity of it
 */
 select dt2.rank1, p.ProductName, dt2.UnitPrice, dt2.City
@@ -102,7 +102,7 @@ on p.ProductID = dt2.ProductID
 where dt2.rank1 <= 5
 
 
-/* List all cities that have never ordered something but we have
+/* 9. List all cities that have never ordered something but we have
 employees there
 	using sub-query
 	not using sub-query
@@ -122,14 +122,14 @@ on e.City = o.ShipCity
 where o.ShipCity is null
 
 
-/* List one city, if exists, that is the city from where the 
+/* 10. List one city, if exists, that is the city from where the 
 employee sold most orders (not the product quantity) is, and also
 the city of most total quantity of products ordered from
 (tip: join sub-query)
 */
 
 
-/* How do you remove duplicates record of a table? 
+/* 11. How do you remove duplicates record of a table? 
 	Delete with JOIN
 	Delete [T1]
 	from [Table Name][T1] 
@@ -139,7 +139,7 @@ the city of most total quantity of products ordered from
 	-- for all columns
 */
 
-/* Sample table to be used for solutions below -
+/* 12. Sample table to be used for solutions below -
 	Employee (empid integer, mngrid integer, deptid integer,
 		salary integer)
 	Dept (deptid integer, deptname text)
@@ -163,7 +163,7 @@ the city of most total quantity of products ordered from
 	having max(cte.lvl) = cte.mgnrid
 */
 
-/* Find departments that have maximum number of employees. 
+/* 13. Find departments that have maximum number of employees. 
 (Solution should consider scenario having more than 1 departments 
 that have maximum number of employees) Result should have -
 	deptname, count of employees sorted by deptname
@@ -182,7 +182,7 @@ that have maximum number of employees) Result should have -
 	having max(dt.'emp Count') = dt.'emp Count'
 */
 
-/* Find top 3 employees (salary based) in every department. 
+/* 14. Find top 3 employees (salary based) in every department. 
 Result should have deptname, empid, salary sorted by deptname and
 then employee with high to low salary.
 
